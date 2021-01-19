@@ -2,7 +2,10 @@ Loading Data
 ------------
 
 ``` r
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(dev="png")
 #Set working directory
 here <- getwd()
 setwd(here)
@@ -122,7 +125,7 @@ There are a number of days/intervals where there are missing values
 (coded as NA). The presence of missing days may introduce bias into some
 calculations or summaries of the data.
 
-Calculate and report the total number of missing values in the dataset.
+Calculate and report the total number of missing values in the data set.
 
 ``` r
 sum(is.na(activity$steps))
@@ -130,15 +133,15 @@ sum(is.na(activity$steps))
 
     ## [1] 2304
 
-Devise a strategy for filling in all of the missing values in the
-dataset.
+Devise a strategy for filling in all of the missing values in the data
+set.
 
 ``` r
 imputed_steps <- average_daily_activity$mean[match(activity$interval, average_daily_activity$interval)]
 ```
 
-Create a new dataset that is equal to the original dataset but with the
-missing data filled in.
+Create a new data set that is equal to the original data set but with
+the missing data filled in.
 
 ``` r
 activity_imputed <- transform(activity, steps = ifelse(is.na(activity$steps), yes = imputed_steps, no = activity$steps))
@@ -175,9 +178,9 @@ mean(total_steps_imputed$daily_steps)
 4. Are there differences in activity patterns between weekdays and weekends?
 ----------------------------------------------------------------------------
 
-Create a new factor variable in the data set with two levels â
-âweekdayâ and âweekendâ indicating whether a given date is a
-weekday or weekend day.
+Create a new factor variable in the data set with two levels weekends
+and weekdays indicating whether a given date is a weekday or weekend
+day.
 
 ``` r
 activity$date <- as.Date(strptime(activity$date, format="%Y-%m-%d"))
@@ -189,9 +192,9 @@ activity$datetype <- sapply(activity$date, function(x) {
 })
 ```
 
-Make a panel plot containing a time series plot (i.e. type = âlâ) of
-the 5-minute interval (x-axis) and the average number of steps taken,
-averaged across all weekday days or weekend days (y-axis).
+Make a panel plot containing a time series plot of the 5-minute interval
+(x-axis) and the average number of steps taken, averaged across all
+weekday days or weekend days (y-axis).
 
 ``` r
 library(lattice)
